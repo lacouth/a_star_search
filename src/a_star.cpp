@@ -20,12 +20,12 @@ struct No
 {
     No(){}
     No(int a, int b) : i(a), j(b){}
-    No(int a, int b, float c) : i(a), j(b), prioridade(c){} 
-    No(int a, int b, float c, No *n): i(a), j(b),prioridade(c),anterior(n){}
+    No(int a, int b, float c) : i(a), j(b), custo(c){} 
+    No(int a, int b, float c, No *n): i(a), j(b),custo(c),anterior(n){}
 
     int i;
     int j;
-    float prioridade;
+    float custo;
     No *anterior;
 
 };
@@ -101,7 +101,7 @@ float Heuristica(No atual, No destino){
 }
 
 bool CompararPrioridade(No a, No b){
-    return a.prioridade > b.prioridade;
+    return a.custo > b.custo;
 }
 
 void MarcarCaminho(vector<vector<int>> &mapa, vector<No> &caminho, No inicio, No destino){
@@ -118,7 +118,7 @@ int main(){
     No inicio{0, 0};
     No destino{4, 5, 0};
 
-    inicio.prioridade = Heuristica(inicio,destino);
+    inicio.custo = Heuristica(inicio,destino);
     inicio.anterior = nullptr;
 
     No atual;
@@ -142,11 +142,11 @@ int main(){
         auto vizinhos = BuscarVizinhos(atual, mapa);
         custo_g++;
         for(auto& vizinho : vizinhos){
-            float prioridade = custo_g + Heuristica(vizinho,destino);
+            float custo = custo_g + Heuristica(vizinho,destino);
             auto it = find(caminho.begin(), caminho.end(),vizinho);
-            if (it == caminho.end() or prioridade < it->prioridade){
-                vizinho.prioridade = prioridade;
-                vizinho.anterior = new No{atual.i,atual.j,atual.prioridade,atual.anterior};
+            if (it == caminho.end() or custo < it->custo){
+                vizinho.custo = custo;
+                vizinho.anterior = new No{atual.i,atual.j,atual.custo,atual.anterior};
                 if(it != caminho.end()) caminho.erase(it);
                 fronteira.push_back(vizinho);
             }
