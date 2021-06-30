@@ -100,7 +100,7 @@ float Heuristica(No atual, No destino){
     return abs(atual.i - destino.i) + abs(atual.j - atual.j);
 }
 
-bool CompararPrioridade(No a, No b){
+bool CompararCusto(No a, No b){
     return a.custo > b.custo;
 }
 
@@ -151,7 +151,7 @@ int main(){
                 fronteira.push_back(vizinho);
             }
         }
-        sort(fronteira.begin(), fronteira.end(),CompararPrioridade);
+        sort(fronteira.begin(), fronteira.end(),CompararCusto);
     }
     cout << "\n\n==========Caminho==========\n\n";
     MarcarCaminho(mapa,caminho,inicio,destino);
